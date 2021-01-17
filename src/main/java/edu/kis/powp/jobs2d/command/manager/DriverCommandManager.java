@@ -1,5 +1,6 @@
 package edu.kis.powp.jobs2d.command.manager;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +46,24 @@ public class DriverCommandManager {
 			@Override
 			public Iterator<DriverCommand> iterator() {
 				return driverCommands.iterator();
+			}
+
+			@Override
+			public ICompoundCommand clone() {
+				ICompoundCommand command = null;
+				try {
+					command = (ICompoundCommand) super.clone();
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+				
+				Iterator<DriverCommand> source = this.iterator();
+				//List type is irrelevant for this purpouse
+				List<DriverCommand> target = new ArrayList<DriverCommand>();
+				source.forEachRemaining(val -> target.add(val.clone()));
+				driverCommands = target;
+
+				return command;
 			}
 
 			@Override

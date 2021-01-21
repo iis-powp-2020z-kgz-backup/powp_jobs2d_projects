@@ -15,6 +15,7 @@ import edu.kis.powp.jobs2d.events.SelectLoadSecretCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+import edu.kis.powp.jobs2d.features.AdditionalDriverFeature;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
@@ -68,6 +69,20 @@ public class TestJobs2dApp {
 		DriverFeature.updateDriverInfo();
 	}
 
+	private static void setupAdditionalDrivers(Application application) {
+		Job2dDriver loggerDriver = new LoggerDriver();
+		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
+
+//		DrawPanelController drawerController = DrawerFeature.getDrawerController();
+//		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+//		AdditionalDriverFeature.addDriver("Line Simulator", driver);
+//		AdditionalDriverFeature.getDriverManager().setCurrentDriver(driver);
+//
+//		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
+//		AdditionalDriverFeature.addDriver("Special line Simulator", driver);
+//		AdditionalDriverFeature.updateDriverInfo();
+	}
+
 	private static void setupWindows(Application application) {
 
 		CommandManagerWindow commandManager = new CommandManagerWindow(CommandsFeature.getDriverCommandManager());
@@ -108,6 +123,8 @@ public class TestJobs2dApp {
 				CommandsFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);
+				AdditionalDriverFeature.setupDriverPlugin(app);
+				setupAdditionalDrivers(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);

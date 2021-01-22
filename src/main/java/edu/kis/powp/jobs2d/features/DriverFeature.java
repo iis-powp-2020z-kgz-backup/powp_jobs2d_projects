@@ -23,6 +23,7 @@ public class DriverFeature {
 	public static void setupDriverPlugin(Application application) {
 		app = application;
 		app.addComponentMenu(DriverFeature.class, "Drivers");
+		driverManager.getPublisher().addSubscriber(new DriverLabelObserver());
 	}
 
 	/**
@@ -34,7 +35,6 @@ public class DriverFeature {
 	public static void addDriver(String name, Job2dDriver driver) {
 		SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
 		app.addComponentMenuElement(DriverFeature.class, name, listener);
-		driverManager.getPublisher().addSubscriber(new DriverLabelObserver());
 	}
 
 	/**

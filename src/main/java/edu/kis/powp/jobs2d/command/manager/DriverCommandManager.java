@@ -1,12 +1,9 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.DriverCommand;
-import edu.kis.powp.jobs2d.command.ICompoundCommand;
+import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.observer.Publisher;
 
 /**
@@ -34,44 +31,7 @@ public class DriverCommandManager {
 	 * @param name        name of the command.
 	 */
 	public synchronized void setCurrentCommand(List<DriverCommand> commandList, String name) {
-		setCurrentCommand(new ICompoundCommand() {
-
-			List<DriverCommand> driverCommands = commandList;
-
-			@Override
-			public void execute(Job2dDriver driver) {
-				driverCommands.forEach((c) -> c.execute(driver));
-			}
-
-			@Override
-			public Iterator<DriverCommand> iterator() {
-				return driverCommands.iterator();
-			}
-
-			@Override
-			public ICompoundCommand clone() {
-				ICompoundCommand command = null;
-				try {
-					command = (ICompoundCommand) super.clone();
-				} catch (CloneNotSupportedException e) {
-					e.printStackTrace();
-				}
-				
-				Iterator<DriverCommand> source = this.iterator();
-				//List type is irrelevant for this purpouse
-				List<DriverCommand> target = new ArrayList<DriverCommand>();
-				source.forEachRemaining(val -> target.add(val.clone()));
-				driverCommands = target;
-
-				return command;
-			}
-
-			@Override
-			public String toString() {
-				return name;
-			}
-		});
-
+		setCurrentCommand(new CompoundCommand(commandList, name));
 	}
 
 	/**

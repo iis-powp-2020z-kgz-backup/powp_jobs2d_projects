@@ -1,0 +1,32 @@
+[
+  {
+    "operation": "SetPositionCommand",
+    "X": 70,
+    "Y": -50
+  },
+  {
+    "operation": "OperateToCommand",
+    "X": 20,
+    "Y": -50
+  },
+  {
+    "operation": "OperateToCommand",
+    "X": 20,
+    "Y": 0
+  },
+  {
+    "operation": "OperateToCommand",
+    "X": 70,
+    "Y": 0
+  },
+  {
+    "operation": "OperateToCommand",
+    "X": 70,
+    "Y": 50
+  },
+  {
+    "operation": "OperateToCommand",
+    "X": 20,
+    "Y": 50
+  }
+]

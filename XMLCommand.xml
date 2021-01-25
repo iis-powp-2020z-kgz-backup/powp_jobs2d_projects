@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Commands>
+   <Command>
+      <operation>SetPositionCommand</operation>
+      <x>70</x>
+      <y>-50</y>
+   </Command>
+   <Command>
+      <operation>OperateToCommand</operation>
+      <x>20</x>
+      <y>-50</y>
+   </Command>
+   <Command>
+      <operation>OperateToCommand</operation>
+      <x>20</x>
+      <y>0</y>
+   </Command>
+   <Command>
+      <operation>OperateToCommand</operation>
+      <x>70</x>
+      <y>0</y>
+   </Command>
+</Commands>

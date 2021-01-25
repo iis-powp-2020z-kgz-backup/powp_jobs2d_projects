@@ -4,14 +4,14 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
-import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.*;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -24,7 +24,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private JTextArea observerListField;
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
 
@@ -71,6 +71,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.gridx = 0;
 		c.weighty = 1;
 		content.add(btnClearObservers, c);
+
+		JButton btnLoadFromJson = new JButton("Load command from external file");
+		btnLoadFromJson.addActionListener((ActionEvent e) -> loadFromFile());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnLoadFromJson, c);
 	}
 
 	private void clearCommand() {
@@ -109,4 +117,31 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		}
 	}
 
+	private void loadFromFile() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.json", "json"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.xml", "xml"));
+		int result = fileChooser.showOpenDialog(this);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			String fileFormat = null;
+			fileFormat = fileChooser.getSelectedFile().getName().substring(fileChooser.getSelectedFile().getName().lastIndexOf(".") + 1);
+			LoadedCommand myLoadedCommand = null;
+			switch (fileFormat) {
+				case "json":
+					myLoadedCommand = new JsonCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource();
+					break;
+				case "xml":
+					myLoadedCommand = new XMLCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource();
+					break;
+				default:
+					break;
+			}
+
+			if(myLoadedCommand != null) {
+				this.commandManager.setCurrentCommand(myLoadedCommand.getLoadedDriverCommands(), myLoadedCommand.getLoadedName());
+			}
+		}
+	}
 }

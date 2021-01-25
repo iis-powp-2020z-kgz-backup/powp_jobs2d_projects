@@ -2,18 +2,12 @@ package edu.kis.powp.jobs2d.features;
 
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.Job2dDriver;
-import edu.kis.powp.jobs2d.drivers.DriverManager;
-import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import edu.kis.powp.jobs2d.drivers.SelectAdditionalDriverMenuOptionListener;
 
 public class AdditionalDriverFeature {
 
-
-    private static DriverManager driverManager = new DriverManager();
     private static Application app;
 
-    public static DriverManager getDriverManager() {
-        return driverManager;
-    }
 
     public static void setupDriverPlugin(Application application) {
         app = application;
@@ -21,11 +15,7 @@ public class AdditionalDriverFeature {
     }
     
     public static void addDriver(String name, Job2dDriver driver) {
-        SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
+        SelectAdditionalDriverMenuOptionListener listener = new SelectAdditionalDriverMenuOptionListener(driver, DriverFeature.getDriverManager());
         app.addComponentMenuElementWithCheckBox(AdditionalDriverFeature.class, name, listener, false);
-    }
-
-    public static void updateDriverInfo() {
-        app.updateInfo(driverManager.getCurrentDriver().toString());
     }
 }

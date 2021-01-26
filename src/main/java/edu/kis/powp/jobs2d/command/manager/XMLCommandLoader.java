@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +9,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,22 +18,22 @@ import javax.xml.parsers.ParserConfigurationException;
 
 
 public class XMLCommandLoader implements LoaderCommand {
-    private String path, name;
+    private String formattedData, name;
 
-    public XMLCommandLoader(String path, String name) {
-        this.path = path;
+    public XMLCommandLoader(String formattedData, String name) {
+        this.formattedData = formattedData;
         this.name = name;
     }
 
     @Override
-    public synchronized LoadedCommand loadCommandFromExternalSource() {
-        File file = new File(path);
+    public synchronized LoadedCommand loadCommandFromExternalSource(String formattedData) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
         List<Command> commandsList = new ArrayList<>();
         try {
             dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
+            InputSource inputSource = new InputSource( new StringReader(formattedData));
+            Document doc = dBuilder.parse(inputSource);
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("Command");
             for (int i = 0; i < nodeList.getLength(); i++) {

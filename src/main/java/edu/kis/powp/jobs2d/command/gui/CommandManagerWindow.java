@@ -5,7 +5,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -72,13 +74,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.weighty = 1;
 		content.add(btnClearObservers, c);
 
-		JButton btnLoadFromJson = new JButton("Load command from external file");
-		btnLoadFromJson.addActionListener((ActionEvent e) -> loadFromFile());
+		JButton btnLoadFromFile = new JButton("Load command from external file");
+		btnLoadFromFile.addActionListener((ActionEvent e) -> loadFromFile());
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.gridx = 0;
 		c.weighty = 1;
-		content.add(btnLoadFromJson, c);
+		content.add(btnLoadFromFile, c);
 	}
 
 	private void clearCommand() {
@@ -127,13 +129,19 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 			File selectedFile = fileChooser.getSelectedFile();
 			String fileFormat = null;
 			fileFormat = fileChooser.getSelectedFile().getName().substring(fileChooser.getSelectedFile().getName().lastIndexOf(".") + 1);
+			String formattedData = null;
+			try {
+				formattedData = new Scanner(selectedFile).useDelimiter("\\Z").next(); // 1-liner that reads whole file to string
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 			LoadedCommand myLoadedCommand = null;
 			switch (fileFormat) {
 				case "json":
-					myLoadedCommand = new JsonCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource();
+					myLoadedCommand = new JsonCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource(formattedData);
 					break;
 				case "xml":
-					myLoadedCommand = new XMLCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource();
+					myLoadedCommand = new XMLCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource(formattedData);
 					break;
 				default:
 					break;

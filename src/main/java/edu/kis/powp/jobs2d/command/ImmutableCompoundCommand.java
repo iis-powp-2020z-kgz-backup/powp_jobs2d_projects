@@ -7,13 +7,15 @@ import java.util.List;
 import edu.kis.powp.jobs2d.Job2dDriver;
 
 public final class ImmutableCompoundCommand implements ICompoundCommand {
-    
+
+    private String name;
+
     private List<DriverCommand> commandsList;
-    
+
     public Iterator<DriverCommand> iterator() {
         return commandsList.iterator();
     }
-           
+
     public ImmutableCompoundCommand(List<DriverCommand> commands, String name) {
         super();
         this.commandsList = new ArrayList<>();
@@ -28,19 +30,22 @@ public final class ImmutableCompoundCommand implements ICompoundCommand {
         other.iterator().forEachRemaining(command -> this.commandsList.add(command.clone()));
     }
 
-    public ImmutableCompoundCommand clone(){    
-        ImmutableCompoundCommand command = (ImmutableCompoundCommand) super.clone();
-    
-        command = (ImmutableCompoundCommand) super.clone();
-        command.name = this.name;
-        command.commandsList = new ArrayList<>();
-        for (DriverCommand cmd : this.commandsList) {
-            command.commandsList.add(cmd.clone());
+    public ImmutableCompoundCommand clone() {
+        ImmutableCompoundCommand command;
+        try {
+            command = (ImmutableCompoundCommand) super.clone();
+            command.name = this.name;
+            command.commandsList = new ArrayList<>();
+            for (DriverCommand cmd : this.commandsList) {
+                command.commandsList.add(cmd.clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            command = new ImmutableCompoundCommand(this, this.name);
         }
         return command;
     }
 
     public void execute(Job2dDriver driver) {
-        this.iterator().forEachRemaining(command -> ImmutableCompoundCommand.execute(driver));
+        this.iterator().forEachRemaining(command -> execute(driver));
     }
 }

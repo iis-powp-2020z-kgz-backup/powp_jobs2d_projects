@@ -7,21 +7,20 @@ import java.util.Iterator;
 
 public class CommandVisitorCounter implements CommandVisitorInterface {
 
-    private int operateToCommandCounter = 0;
-    private int setPositionCommandCounter = 0;
+    private int commandCount=0;
 
     public int getAllCommandsCounter() {
-        return setPositionCommandCounter + operateToCommandCounter;
+        return commandCount;
     }
 
     @Override
     public void visit(OperateToCommand operateToCommand) {
-        operateToCommandCounter++;
+        commandCount++;
     }
 
     @Override
     public void visit(SetPositionCommand setPositionCommand) {
-        setPositionCommandCounter++;
+        commandCount++;
     }
 
     @Override

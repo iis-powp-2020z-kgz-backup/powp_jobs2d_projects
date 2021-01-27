@@ -5,6 +5,7 @@ import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.visitor.CommandVisitorCounter;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,28 +26,16 @@ public class SelectCommandVisitorCounterListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         logger.info("Testing visitor for driver command.");
 
-        List<DriverCommand> commands = new ArrayList<DriverCommand>();
-        commands.add(new SetPositionCommand(-20, -50));
-        commands.add(new OperateToCommand(-20, -50));
-        commands.add(new SetPositionCommand(-20, -40));
-        commands.add(new OperateToCommand(-20, 50));
-        commands.add(new SetPositionCommand(0, -50));
-        commands.add(new OperateToCommand(0, -50));
-        commands.add(new SetPositionCommand(0, -40));
-        commands.add(new OperateToCommand(0, 50));
-        commands.add(new SetPositionCommand(70, -50));
-        commands.add(new OperateToCommand(20, -50));
-        commands.add(new OperateToCommand(20, 0));
-        commands.add(new OperateToCommand(70, 0));
-        commands.add(new OperateToCommand(70, 50));
-        commands.add(new OperateToCommand(20, 50));
+        DriverCommand command = CommandsFeature.getDriverCommandManager().getCurrentCommand();
 
-        CommandVisitorCounter visitor = new CommandVisitorCounter();
+        if(command==null){
+            logger.info("No command loaded!");
+        }else {
+            CommandVisitorCounter visitor = new CommandVisitorCounter();
 
-        for(DriverCommand command : commands){
             command.accept(visitor);
-            command.execute(driverManager.getCurrentDriver());
+
+            logger.info("Counter: " + visitor.getAllCommandsCounter());
         }
-        logger.info("Counter: " + visitor.getAllCommandsCounter());
     }
 }

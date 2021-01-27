@@ -125,27 +125,20 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.json", "json"));
 		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.xml", "xml"));
 		int result = fileChooser.showOpenDialog(this);
+
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
-			String fileFormat = null;
-			fileFormat = fileChooser.getSelectedFile().getName().substring(fileChooser.getSelectedFile().getName().lastIndexOf(".") + 1);
+			String fileFormat = fileChooser.getSelectedFile().getName().substring(fileChooser.getSelectedFile().getName().lastIndexOf(".") + 1);
 			String formattedData = null;
+
 			try {
 				formattedData = new Scanner(selectedFile).useDelimiter("\\Z").next(); // 1-liner that reads whole file to string
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			LoadedCommand myLoadedCommand = null;
-			switch (fileFormat) {
-				case "json":
-					myLoadedCommand = new JsonCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource(formattedData);
-					break;
-				case "xml":
-					myLoadedCommand = new XMLCommandLoader(selectedFile.getPath(), selectedFile.getName()).loadCommandFromExternalSource(formattedData);
-					break;
-				default:
-					break;
-			}
+
+			CommandLoader loader = new LoaderCommandFactory().getInstance(fileFormat, formattedData, fileChooser.getSelectedFile().getName());
+			LoadedCommand myLoadedCommand = loader.loadCommandFromExternalSource(formattedData);
 
 			if(myLoadedCommand != null) {
 				this.commandManager.setCurrentCommand(myLoadedCommand.getLoadedDriverCommands(), myLoadedCommand.getLoadedName());

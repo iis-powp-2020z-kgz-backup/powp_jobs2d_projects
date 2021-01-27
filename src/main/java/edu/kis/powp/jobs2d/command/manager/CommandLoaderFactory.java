@@ -1,6 +1,6 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-public class LoaderCommandFactory {
+public class CommandLoaderFactory {
     public CommandLoader getInstance(String dataType, String formattedData, String name) {
         switch (dataType) {
             case "json":

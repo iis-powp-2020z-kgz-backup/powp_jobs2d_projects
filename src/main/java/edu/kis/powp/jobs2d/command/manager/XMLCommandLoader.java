@@ -17,7 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 
-public class XMLCommandLoader implements LoaderCommand {
+public class XMLCommandLoader implements CommandLoader {
     private String formattedData, name;
 
     public XMLCommandLoader(String formattedData, String name) {

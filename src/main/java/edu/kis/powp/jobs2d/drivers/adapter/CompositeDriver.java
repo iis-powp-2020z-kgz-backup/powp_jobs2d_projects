@@ -13,7 +13,7 @@ public class CompositeDriver implements Job2dDriver {
 
     public CompositeDriver(Job2dDriver composite, Job2dDriver driver) {
         driversToBeExecuted.add(composite);
-        if (!driversToBeExecuted.contains(driver)){
+        if (!driversToBeExecuted.contains(driver)) {
             driversToBeExecuted.add(driver);
         }
     }
@@ -27,23 +27,23 @@ public class CompositeDriver implements Job2dDriver {
 
     @Override
     public void setPosition(int x, int y) {
-        for(Job2dDriver driver : driversToBeExecuted){
+        for(Job2dDriver driver : driversToBeExecuted) {
             driver.setPosition(x, y);
         }
     }
 
     @Override
     public void operateTo(int x, int y) {
-        for(Job2dDriver driver : driversToBeExecuted){
+        for(Job2dDriver driver : driversToBeExecuted) {
             driver.operateTo(x, y);
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder();
-        for(Job2dDriver driver : driversToBeExecuted){
-            builder.append(driver.toString() +" ");
+        for(Job2dDriver driver : driversToBeExecuted) {
+            builder.append(driver.toString() + " ");
 
         }
         return builder.toString();

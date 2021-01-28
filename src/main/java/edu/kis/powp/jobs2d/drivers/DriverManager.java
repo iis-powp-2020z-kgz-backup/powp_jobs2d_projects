@@ -27,12 +27,12 @@ public class DriverManager {
 		return publisher;
 	}
 
-	public synchronized void addDriver(Job2dDriver driver){
+	public synchronized void addDriver(Job2dDriver driver) {
 		composite.addDriver(driver);
 		publisher.notifyObservers();
 	}
 
-	public synchronized void removeDriver(Job2dDriver driver){
+	public synchronized void removeDriver(Job2dDriver driver) {
 		composite.removeDriver(driver);
 		publisher.notifyObservers();
 	}

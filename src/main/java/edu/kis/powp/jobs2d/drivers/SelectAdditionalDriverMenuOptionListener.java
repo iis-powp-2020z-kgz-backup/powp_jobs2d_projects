@@ -18,9 +18,9 @@ public class SelectAdditionalDriverMenuOptionListener implements ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!state){
+        if (!state) {
             driverManager.addDriver(driver);
-        }else {
+        } else {
             driverManager.removeDriver(driver);
         }
         state = !state;

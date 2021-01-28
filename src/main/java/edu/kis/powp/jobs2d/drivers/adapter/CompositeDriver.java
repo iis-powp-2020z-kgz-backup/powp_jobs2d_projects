@@ -12,7 +12,10 @@ public class CompositeDriver implements Job2dDriver {
     }
 
     public CompositeDriver(Job2dDriver composite, Job2dDriver driver) {
-        driversToBeExecuted.add(composite);
+        if (!driversToBeExecuted.contains(composite)) {
+            driversToBeExecuted.add(composite);
+        }
+               
         if (!driversToBeExecuted.contains(driver)) {
             driversToBeExecuted.add(driver);
         }

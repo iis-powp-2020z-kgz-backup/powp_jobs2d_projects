@@ -60,6 +60,8 @@ public class TestJobs2dApp {
 	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
+		
+		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
@@ -69,12 +71,6 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
-	}
-
-	private static void setupAdditionalDrivers(Application application) {
-		Job2dDriver loggerDriver = new LoggerDriver();
-		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
-
 	}
 
 	private static void setupWindows(Application application) {
@@ -118,7 +114,6 @@ public class TestJobs2dApp {
 
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);
-				setupAdditionalDrivers(app);
 				setupDrivers(app);
 				setupPresetTests(app);
 				setupCommandTests(app);

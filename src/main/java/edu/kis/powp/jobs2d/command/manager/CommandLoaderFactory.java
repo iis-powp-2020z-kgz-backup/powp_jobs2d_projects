@@ -1,12 +1,12 @@
 package edu.kis.powp.jobs2d.command.manager;
 
 public class CommandLoaderFactory {
-    public CommandLoader getInstance(String dataType, String formattedData, String name) {
+    public CommandLoader getInstance(String dataType) {
         switch (dataType) {
             case "json":
-                return new JsonCommandLoader(formattedData, name);
+                return new JsonCommandLoader();
             case "xml":
-                return new XMLCommandLoader(formattedData, name);
+                return new XMLCommandLoader();
             default:
                 return null;
         }

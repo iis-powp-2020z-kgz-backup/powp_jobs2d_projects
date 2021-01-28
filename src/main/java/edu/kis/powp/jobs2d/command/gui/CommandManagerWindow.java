@@ -137,11 +137,11 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 				e.printStackTrace();
 			}
 
-			CommandLoader loader = new CommandLoaderFactory().getInstance(fileFormat, formattedData, fileChooser.getSelectedFile().getName());
+			CommandLoader loader = new CommandLoaderFactory().getInstance(fileFormat);
 			LoadedCommand myLoadedCommand = loader.loadCommandFromExternalSource(formattedData);
 
 			if(myLoadedCommand != null) {
-				this.commandManager.setCurrentCommand(myLoadedCommand.getLoadedDriverCommands(), myLoadedCommand.getLoadedName());
+				this.commandManager.setCurrentCommand(myLoadedCommand.getLoadedDriverCommands(), selectedFile.getName());
 			}
 		}
 	}

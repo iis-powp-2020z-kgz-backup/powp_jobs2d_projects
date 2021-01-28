@@ -6,18 +6,12 @@ import java.util.List;
 
 public class LoadedCommand {
     private final List<DriverCommand> loadedDriverCommands;
-    private final String loadedName;
 
-    LoadedCommand(List<DriverCommand> loadedDriverCommands, String loadedName) {
+    LoadedCommand(List<DriverCommand> loadedDriverCommands) {
         this.loadedDriverCommands = loadedDriverCommands;
-        this.loadedName = loadedName;
     }
 
     public List<DriverCommand> getLoadedDriverCommands() {
         return loadedDriverCommands;
-    }
-
-    public String getLoadedName() {
-        return loadedName;
     }
 }

@@ -13,11 +13,8 @@ import java.util.List;
 
 
 public class JsonCommandLoader implements CommandLoader {
-    private String formattedData, name;
 
-    public JsonCommandLoader(String formattedData, String name) {
-        this.formattedData = formattedData;
-        this.name = name;
+    public JsonCommandLoader() {
     }
 
     @Override
@@ -36,6 +33,6 @@ public class JsonCommandLoader implements CommandLoader {
                     break;
             }
         }
-        return new LoadedCommand(myDriverCommands, name);
+        return new LoadedCommand(myDriverCommands);
     }
 }

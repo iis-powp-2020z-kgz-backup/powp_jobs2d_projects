@@ -18,11 +18,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 
 public class XMLCommandLoader implements CommandLoader {
-    private String formattedData, name;
 
-    public XMLCommandLoader(String formattedData, String name) {
-        this.formattedData = formattedData;
-        this.name = name;
+    public XMLCommandLoader() {
     }
 
     @Override
@@ -56,7 +53,7 @@ public class XMLCommandLoader implements CommandLoader {
             }
         }
 
-        return new LoadedCommand(myDriverCommands, name);
+        return new LoadedCommand(myDriverCommands);
     }
 
     private Command getCommandFromNode(Node node) {
@@ -73,7 +70,7 @@ public class XMLCommandLoader implements CommandLoader {
 
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node = (Node) nodeList.item(0);
+        Node node = nodeList.item(0);
         return node.getNodeValue();
     }
 }

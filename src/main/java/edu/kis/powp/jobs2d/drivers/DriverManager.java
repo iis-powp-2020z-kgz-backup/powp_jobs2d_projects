@@ -29,7 +29,6 @@ public class DriverManager {
 
 	public synchronized void addDriver(Job2dDriver driver){
 		composite.addDriver(driver);
-		System.out.println(composite);
 	}
 
 	public synchronized void removeDriver(Job2dDriver driver){

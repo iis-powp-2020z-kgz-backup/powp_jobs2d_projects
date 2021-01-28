@@ -26,16 +26,16 @@ public class CompositeDriver implements Job2dDriver {
     }
 
     @Override
-    public void setPosition(int i, int i1) {
+    public void setPosition(int x, int y) {
         for(Job2dDriver driver : driversToBeExecuted){
-            driver.setPosition(i,i1);
+            driver.setPosition(x, y);
         }
     }
 
     @Override
-    public void operateTo(int i, int i1) {
+    public void operateTo(int x, int y) {
         for(Job2dDriver driver : driversToBeExecuted){
-            driver.operateTo(i,i1);
+            driver.operateTo(x, y);
         }
     }
 

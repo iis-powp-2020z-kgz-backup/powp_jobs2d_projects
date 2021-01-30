@@ -18,6 +18,7 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.AdditionalDriverFeature;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
+import edu.kis.powp.jobs2d.features.DrawerPanelClickMouseListenerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 public class TestJobs2dApp {
@@ -48,8 +49,10 @@ public class TestJobs2dApp {
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
 		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
 		application.addTest("ICompoundCommandVisitorTest", new SelectICompoundCommandVistorTestListener());
+
 	}
 
 	/**
@@ -71,6 +74,11 @@ public class TestJobs2dApp {
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
 		DriverFeature.updateDriverInfo();
+
+		DrawerPanelClickMouseListenerFeature drawerPanelClickMouseListenerFeature = new DrawerPanelClickMouseListenerFeature(
+				application.getFreePanel(), DriverFeature.getDriverManager());
+
+		application.getFreePanel().addMouseListener(drawerPanelClickMouseListenerFeature);
 	}
 
 	private static void setupWindows(Application application) {
@@ -81,6 +89,7 @@ public class TestJobs2dApp {
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+
 	}
 
 	/**
@@ -111,7 +120,6 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
@@ -119,7 +127,6 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
-
 				app.setVisibility(true);
 			}
 		});

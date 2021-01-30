@@ -17,7 +17,7 @@ public class TransformationDriver implements Job2dDriver {
         transformationsList.add(transformation);
     }
 
-    public Point newPoint(Point point) {
+    private Point newPoint(Point point) {
         for (Transformation transformation : transformationsList) {
             point = transformation.use(point);
         }

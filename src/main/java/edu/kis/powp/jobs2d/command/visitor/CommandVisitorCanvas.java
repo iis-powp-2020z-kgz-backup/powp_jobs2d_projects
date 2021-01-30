@@ -41,10 +41,6 @@ public class CommandVisitorCanvas implements CommandVisitorInterface {
 
 
     public boolean getResult(){
-        if(isBounduaryCrossed){
-            return true;
-        }else{
-            return false;
-        }
+        return isBounduaryCrossed;
     }
 }

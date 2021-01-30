@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.command;
 
 public class RectangleCanvas implements ShapeChecker{
-    int bonduaryPositiveX, bonduaryPositiveY, bonduaryNegativeX, bonduaryNegativeY;
+    private int bonduaryPositiveX, bonduaryPositiveY, bonduaryNegativeX, bonduaryNegativeY;
 
     public RectangleCanvas(int height, int width){
         this.bonduaryPositiveX=width/2;

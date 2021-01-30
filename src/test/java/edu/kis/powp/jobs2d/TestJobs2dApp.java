@@ -46,6 +46,8 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
+		application.addTest("Canvas checker A4", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),210,297));
+		application.addTest("Canvas checker A7", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),74,105));
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));

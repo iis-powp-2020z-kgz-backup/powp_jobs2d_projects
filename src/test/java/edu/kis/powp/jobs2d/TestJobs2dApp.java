@@ -65,7 +65,7 @@ public class TestJobs2dApp {
 		DriverFeature.updateDriverInfo();
 
 		DrawerPanelClickMouseListenerFeature drawerPanelClickMouseListenerFeature = new DrawerPanelClickMouseListenerFeature(
-				drawerController, application, DriverFeature.getDriverManager(), LineFactory.getBasicLine(), "basic");
+				 application, DriverFeature.getDriverManager());
 
 		application.getFreePanel().addMouseListener(drawerPanelClickMouseListenerFeature);
 	}

@@ -10,36 +10,28 @@ package edu.kis.powp.jobs2d.features;
 
 public class DrawerPanelClickMouseListenerFeature implements MouseListener {
     private final Application application;
-    private ILine line;
     private int startX = 0, startY = 0;
-    private String name;
-    private boolean isClicked = false;
+    private boolean isClicked = true;
     private DriverManager driverManager;
 
-    private DrawPanelController drawController;
 
-    public DrawerPanelClickMouseListenerFeature(DrawPanelController drawController,
-                                                Application application, DriverManager driverManager, ILine line, String name) {
+    public DrawerPanelClickMouseListenerFeature(Application application, DriverManager driverManager) {
         super();
-        this.drawController = drawController;
-        this.line = line;
         this.application = application;
         this.driverManager = driverManager;
-        this.name = name;
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         startX = mouseEvent.getX() - (application.getFreePanel().getSize().width/2);
         startY = mouseEvent.getY() - (application.getFreePanel().getSize().height/2);
-        driverManager.getCurrentDriver();
 
         if(isClicked){
-            setPosition(startX, startY);
+            driverManager.getCurrentDriver().setPosition(startX, startY);
             isClicked = false;
         }
         else {
-            endPosition(startX, startY);
+            driverManager.getCurrentDriver().operateTo(startX, startY);
             isClicked = true;
         }
     }
@@ -61,17 +53,5 @@ public class DrawerPanelClickMouseListenerFeature implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-    }
-
-    public void setPosition(int x, int y) {
-        startX = x;
-        startY = y;
-        line.setEndCoordinates(x, y);
-        drawController.drawLine(line);
-    }
-
-
-    public void endPosition(int x, int y) {
-        line.setStartCoordinates(x, y);
     }
 }

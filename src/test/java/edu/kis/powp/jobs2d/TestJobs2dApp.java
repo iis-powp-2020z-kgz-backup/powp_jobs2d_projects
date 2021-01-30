@@ -10,6 +10,8 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.drivers.IVisitableDriver;
+import edu.kis.powp.jobs2d.drivers.VisitableLoggerDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.events.*;
 // import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
@@ -49,6 +51,7 @@ public class TestJobs2dApp {
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
+		application.addTest("DriverVisitorCounter Test", new SelectDriverVisitorCounterListener(DriverFeature.getDriverManager()));
 		application.addTest("ICompoundCommandVisitorTest", new SelectICompoundCommandVistorTestListener());
 	}
 
@@ -58,13 +61,13 @@ public class TestJobs2dApp {
 	 * @param application Application context.
 	 */
 	private static void setupDrivers(Application application) {
-		Job2dDriver loggerDriver = new LoggerDriver();
+		IVisitableDriver loggerDriver = new VisitableLoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
-		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
+		IVisitableDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
 		DriverFeature.addDriver("Line Simulator", driver);
 		DriverFeature.getDriverManager().setCurrentDriver(driver);
 

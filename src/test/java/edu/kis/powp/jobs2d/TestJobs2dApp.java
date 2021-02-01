@@ -114,7 +114,7 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-				MacroFeature.setupMacro(app);
+				MacroFeature.setupMacro();
 
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);

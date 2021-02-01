@@ -44,6 +44,7 @@ public class TestJobs2dApp {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
 		application.addTest("Load macro", new SelectLoadMacroOptionListener());
+		application.addTest("Clear macro", new SelectClearMacroListener());
 
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
 		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
@@ -60,6 +61,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
+		AdditionalDriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");

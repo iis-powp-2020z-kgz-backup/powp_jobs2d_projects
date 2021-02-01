@@ -13,12 +13,12 @@ public class MacroDriver implements Job2dDriver {
 
     @Override
     public void operateTo(int x, int y) {
-        macro.add(new SetPositionCommand(x, y));
+        macro.add(new OperateToCommand(x, y));
     }
 
     @Override
     public void setPosition(int x, int y) {
-        macro.add((new OperateToCommand(x, y)));
+        macro.add((new SetPositionCommand(x, y)));
     }
 
     public List<DriverCommand> getMacro(){

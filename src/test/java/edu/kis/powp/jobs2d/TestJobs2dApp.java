@@ -60,6 +60,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
+		AdditionalDriverFeature.addDriver("Macro", MacroFeature.getMacroDriver());
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");

@@ -60,7 +60,6 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
-		AdditionalDriverFeature.addDriver("Macro", MacroFeature.getMacroDriver());
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
@@ -69,6 +68,9 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		DriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
+
 		DriverFeature.updateDriverInfo();
 	}
 
@@ -110,11 +112,11 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+				MacroFeature.setupMacro(app);
 
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
-				MacroFeature.setupMacro(app);
 				setupPresetTests(app);
 				setupCommandTests(app);
 				setupLogger(app);

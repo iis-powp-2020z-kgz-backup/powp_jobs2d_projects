@@ -13,11 +13,14 @@ public class MacroFeature {
 
     public static void setupMacro(Application application) {
         macroDriver = new MacroDriver();
+        /*
         app = application;
         app.addComponentMenu(MacroFeature.class, "Macro");
         app.addComponentMenuElement(MacroFeature.class, "Start recording", new SelectStartMacroListener());
-        //app.addComponentMenuElement(MacroFeature.class, "Stop recording", new SelectStopMacroListener());
+        app.addComponentMenuElement(MacroFeature.class, "Stop recording", new SelectStopMacroListener());
         app.addComponentMenuElement(MacroFeature.class, "Clear macro", new SelectClearMacroListener());
+
+         */
     }
 
     public static MacroDriver getMacroDriver(){

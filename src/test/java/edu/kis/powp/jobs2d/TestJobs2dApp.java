@@ -8,9 +8,14 @@ import java.util.logging.Logger;
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.Application;
+import edu.kis.powp.jobs2d.command.RectangleCanvas;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
+import edu.kis.powp.jobs2d.drivers.transformation.Scale;
+import edu.kis.powp.jobs2d.drivers.transformation.Transformation;
+import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
 // import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 // import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
@@ -18,6 +23,7 @@ import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.features.AdditionalDriverFeature;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
+import edu.kis.powp.jobs2d.features.DrawerPanelClickMouseListenerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 
 public class TestJobs2dApp {
@@ -47,9 +53,16 @@ public class TestJobs2dApp {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
 
+		RectangleCanvas A4 = new RectangleCanvas(210,297);
+		RectangleCanvas A7 = new RectangleCanvas(74,105);
+		application.addTest("Canvas checker A4", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),A4));
+		application.addTest("Canvas checker A7", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),A7));
+
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
+
 		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
 		application.addTest("ICompoundCommandVisitorTest", new SelectICompoundCommandVistorTestListener());
+
 	}
 
 	/**
@@ -70,7 +83,24 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		TransformationDriver scaleTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 1.5d));
+		DriverFeature.addDriver("Scale", scaleTransformationDriver);
+
+		TransformationDriver rotateTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		rotateTransformationDriver.addNewTransformation(new Rotate(45.0d));
+		DriverFeature.addDriver("Rotate", rotateTransformationDriver);
 		DriverFeature.updateDriverInfo();
+
+		DrawerPanelClickMouseListenerFeature drawerPanelClickMouseListenerFeature = new DrawerPanelClickMouseListenerFeature(
+				application.getFreePanel(), DriverFeature.getDriverManager());
+
+		application.getFreePanel().addMouseListener(drawerPanelClickMouseListenerFeature);
 	}
 
 	private static void setupWindows(Application application) {
@@ -81,6 +111,7 @@ public class TestJobs2dApp {
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+
 	}
 
 	/**
@@ -111,7 +142,6 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);
@@ -119,7 +149,6 @@ public class TestJobs2dApp {
 				setupCommandTests(app);
 				setupLogger(app);
 				setupWindows(app);
-
 				app.setVisibility(true);
 			}
 		});

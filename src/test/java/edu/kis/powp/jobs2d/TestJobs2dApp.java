@@ -11,6 +11,10 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
+import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
+import edu.kis.powp.jobs2d.drivers.transformation.Scale;
+import edu.kis.powp.jobs2d.drivers.transformation.Transformation;
+import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
 // import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 // import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
@@ -73,6 +77,18 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		TransformationDriver scaleTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 1.5d));
+		DriverFeature.addDriver("Scale", scaleTransformationDriver);
+
+		TransformationDriver rotateTransformationDriver = new TransformationDriver(
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
+		);
+		rotateTransformationDriver.addNewTransformation(new Rotate(45.0d));
+		DriverFeature.addDriver("Rotate", rotateTransformationDriver);
 		DriverFeature.updateDriverInfo();
 
 		DrawerPanelClickMouseListenerFeature drawerPanelClickMouseListenerFeature = new DrawerPanelClickMouseListenerFeature(

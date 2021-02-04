@@ -15,11 +15,7 @@ import edu.kis.powp.jobs2d.events.*;
 // import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 // import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 // import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
-import edu.kis.powp.jobs2d.features.AdditionalDriverFeature;
-import edu.kis.powp.jobs2d.features.CommandsFeature;
-import edu.kis.powp.jobs2d.features.DrawerFeature;
-import edu.kis.powp.jobs2d.features.DrawerPanelClickMouseListenerFeature;
-import edu.kis.powp.jobs2d.features.DriverFeature;
+import edu.kis.powp.jobs2d.features.*;
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -79,6 +75,10 @@ public class TestJobs2dApp {
 				application.getFreePanel(), DriverFeature.getDriverManager());
 
 		application.getFreePanel().addMouseListener(drawerPanelClickMouseListenerFeature);
+
+		Job2dDriver drawerOdometerFeature = new DrawerOdometerFeature();
+		AdditionalDriverFeature.addDriver("Odometer", drawerOdometerFeature);
+
 	}
 
 	private static void setupWindows(Application application) {

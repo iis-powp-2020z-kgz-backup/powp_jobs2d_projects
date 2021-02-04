@@ -56,8 +56,8 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
-		application.addTest("Load macro", new SelectLoadMacroOptionListener());
-		application.addTest("Clear macro", new SelectClearMacroListener());
+		application.addTest("Load macro", new SelectLoadMacroOptionListener(MacroFeature.getMacroDriver(), CommandsFeature.getDriverCommandManager()));
+		application.addTest("Clear macro", new SelectClearMacroListener(MacroFeature.getMacroDriver()));
 
 		RectangleCanvas A4 = new RectangleCanvas(210,297);
 		RectangleCanvas A7 = new RectangleCanvas(74,105);

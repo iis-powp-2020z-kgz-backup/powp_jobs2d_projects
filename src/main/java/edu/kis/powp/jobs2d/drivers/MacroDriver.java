@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.drivers;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.CompoundCommand;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
@@ -21,8 +22,8 @@ public class MacroDriver implements Job2dDriver {
         macro.add((new SetPositionCommand(x, y)));
     }
 
-    public List<DriverCommand> getMacro(){
-        return macro;
+    public CompoundCommand getMacro(){
+        return new CompoundCommand(macro, "Macro");
     }
 
     public void clearMacro(){

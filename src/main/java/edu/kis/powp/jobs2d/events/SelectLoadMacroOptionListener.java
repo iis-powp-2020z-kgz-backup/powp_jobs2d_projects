@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SelectLoadMacroOptionListener implements ActionListener {
-    MacroDriver macroDriver;
-    DriverCommandManager manager;
+    private MacroDriver macroDriver;
+    private DriverCommandManager manager;
 
     public SelectLoadMacroOptionListener(MacroDriver macroDriver, DriverCommandManager manager){
         this.macroDriver = macroDriver;

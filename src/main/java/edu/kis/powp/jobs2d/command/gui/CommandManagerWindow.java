@@ -25,6 +25,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private String observerListString;
 	private JTextArea observerListField;
 
+	private JTextArea historyCommandField;
+
 	/**
 	 *
 	 */
@@ -58,6 +60,32 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+		historyCommandField = new JTextArea("");
+		historyCommandField.setEditable(false);
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(historyCommandField, c);
+
+		JButton btnPrevCommand = new JButton("Previous command");
+		btnPrevCommand.addActionListener((ActionEvent e) -> this.updateHistoryCommandFieldPrevious());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnPrevCommand, c);
+
+		JButton btnNextCommand = new JButton("Next command");
+		btnNextCommand.addActionListener((ActionEvent e) -> this.updateHistoryCommandFieldNext());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnNextCommand, c);
+
+
+
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
 		c.fill = GridBagConstraints.BOTH;
@@ -90,6 +118,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	public void updateCurrentCommandField() {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
+	}
+
+	public void updateHistoryCommandFieldPrevious() {
+		historyCommandField.setText(commandManager.getHistoryCommandPreviousString());
+	}
+	public void updateHistoryCommandFieldNext() {
+		historyCommandField.setText(commandManager.getHistoryCommandNextString());
 	}
 
 	public void deleteObservers() {

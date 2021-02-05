@@ -1,32 +1,30 @@
 package edu.kis.powp.jobs2d.command.manager;
 
-import edu.kis.powp.jobs2d.features.CommandHistoryFeature;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.observer.Subscriber;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CommandHistoryObserver implements Subscriber {
 
-    public void update() {
-        String commandString = CommandHistoryFeature.getDriverCommandManager().getCurrentCommandString();
+    ArrayList<HistoryCommandItem> commandsList = new ArrayList<>();
 
-        try {
-            saveHistory(commandString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void update() {
+        String commandString = CommandsFeature.getDriverCommandManager().getCurrentCommandString();
+
+        saveHistory(commandString);
     }
 
-    private void saveHistory(String command) throws IOException {
-        String fileName = "history.txt";
+    private void saveHistory(String command) {
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-        writer.append(command+"\n");
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
-        writer.close();
+        commandsList.add(new HistoryCommandItem(command, dateFormat.format(date)));
     }
 
 }

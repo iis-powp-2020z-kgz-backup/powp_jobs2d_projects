@@ -78,6 +78,7 @@ public class TestJobs2dApp {
 		CommandManagerWindowCommandChangeObserver windowObserver = new CommandManagerWindowCommandChangeObserver(
 				commandManager);
 		CommandsFeature.getDriverCommandManager().getChangePublisher().addSubscriber(windowObserver);
+
 	}
 
 	/**
@@ -108,7 +109,6 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
-				CommandHistoryFeature.setupCommandManager();
 
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);

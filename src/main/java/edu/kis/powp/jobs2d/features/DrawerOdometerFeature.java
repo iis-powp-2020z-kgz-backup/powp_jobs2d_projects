@@ -8,24 +8,41 @@ public class DrawerOdometerFeature implements Job2dDriver {
     private Double
             lineA,
             lineB,
-            positionDistance = 0.0,
-            operateDistance = 0.0;
+            headDistance = 0.0,
+            operatingDistance = 0.0;
+
+    private void setOperatingDistance(Double operatingDistance) {
+        this.operatingDistance = operatingDistance;
+    }
+
+    private void setHeadDistance(Double headDistance) {
+        this.headDistance = headDistance;
+    }
+
+    public Double getHeadDistance() {
+        return headDistance;
+    }
+
+    public Double getOperatingDistance() {
+        return operatingDistance;
+    }
+
+    private double countDistance(int i, int y){
+        lineA = Double.valueOf(i);
+        lineB = Double.valueOf(y);
+        return Math.sqrt(Math.pow(lineA, 2) + Math.pow(lineB, 2));
+    }
 
     @Override
     public void setPosition(int i, int i1) {
-        lineA = Double.valueOf(i);
-        lineB = Double.valueOf(i1);
-        double hypotenuse = Math.sqrt(Math.pow(lineA, 2) + Math.pow(lineB, 2));
-        this.positionDistance = this.positionDistance + hypotenuse;
-        logger.info("Head distance: " + this.positionDistance);
+        setOperatingDistance(getOperatingDistance() + countDistance(i, i1));
+
     }
 
     @Override
     public void operateTo(int i, int i1) {
-        lineA = Double.valueOf(i);
-        lineB = Double.valueOf(i1);
-        double hypotenuse = Math.sqrt(Math.pow(lineA, 2) + Math.pow(lineB, 2));
-        this.operateDistance = this.operateDistance + hypotenuse;
-        logger.info("Op. distance: " + this.operateDistance);
+        setHeadDistance(getHeadDistance() + countDistance(i, i1));
+        logger.info("Head distance: " + getHeadDistance() +
+                "\nOperating distance: " + getOperatingDistance());
     }
 }

@@ -11,19 +11,18 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.command.RectangleCanvas;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindow;
 import edu.kis.powp.jobs2d.command.gui.CommandManagerWindowCommandChangeObserver;
+import edu.kis.powp.jobs2d.command.transformation.ScaleTransformation;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
-import edu.kis.powp.jobs2d.drivers.transformation.Transformation;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
 import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
 import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
-
+import edu.kis.powp.jobs2d.events.ScaleTransformationVisitorTestListener;
 
 import edu.kis.powp.jobs2d.features.*;
-
 
 public class TestJobs2dApp {
 	private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -50,21 +49,32 @@ public class TestJobs2dApp {
 	 */
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
-		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
-		application.addTest("Load macro", new SelectLoadMacroOptionListener(MacroFeature.getMacroDriver(), CommandsFeature.getDriverCommandManager()));
+		application.addTest("Load test command", new SelectLoadTestCommandOptionListener());
+		application.addTest("Load macro", new SelectLoadMacroOptionListener(MacroFeature.getMacroDriver(),
+				CommandsFeature.getDriverCommandManager()));
 		application.addTest("Clear macro", new SelectClearMacroListener(MacroFeature.getMacroDriver()));
 
-		RectangleCanvas A4 = new RectangleCanvas(210,297);
-		RectangleCanvas A7 = new RectangleCanvas(74,105);
-		application.addTest("Canvas checker A4", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),A4));
-		application.addTest("Canvas checker A7", new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(),A7));
-
+		RectangleCanvas A4 = new RectangleCanvas(210, 297);
+		RectangleCanvas A7 = new RectangleCanvas(74, 105);
+		application.addTest("Canvas checker A4",
+				new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(), A4));
+		application.addTest("Canvas checker A7",
+				new SelectCommandVisitorCanvasListener(DriverFeature.getDriverManager(), A7));
 		application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
-
-		application.addTest("DriverCommandVisitorTest", new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
+		application.addTest("DriverCommandVisitorTest",
+				new SelectCommandVisitorCounterListener(DriverFeature.getDriverManager()));
 		application.addTest("ICompoundCommandVisitorTest", new SelectICompoundCommandVistorTestListener());
 
-	}
+		// Setup Command Transformation Test
+		{
+			// ScaleTransformation
+			ScaleTransformation scaleTransformation = new ScaleTransformation();
+			scaleTransformation.setScale(2, 3);
+			application.addTest("Scale Transformation Visitor Test",
+					new ScaleTransformationVisitorTestListener(scaleTransformation));
+		}
+
+	};
 
 	/**
 	 * Setup driver manager, and set default Job2dDriver for application.
@@ -74,7 +84,7 @@ public class TestJobs2dApp {
 	private static void setupDrivers(Application application) {
 		Job2dDriver loggerDriver = new LoggerDriver();
 		DriverFeature.addDriver("Logger driver", loggerDriver);
-		
+
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
 		AdditionalDriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
 
@@ -89,14 +99,12 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
 
 		TransformationDriver scaleTransformationDriver = new TransformationDriver(
-				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
-		);
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line"));
 		scaleTransformationDriver.addNewTransformation(new Scale(0.5d, 1.5d));
 		DriverFeature.addDriver("Scale", scaleTransformationDriver);
 
 		TransformationDriver rotateTransformationDriver = new TransformationDriver(
-				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
-		);
+				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line"));
 		rotateTransformationDriver.addNewTransformation(new Rotate(45.0d));
 		DriverFeature.addDriver("Rotate", rotateTransformationDriver);
 

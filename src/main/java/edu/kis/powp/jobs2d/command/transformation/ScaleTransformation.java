@@ -19,12 +19,14 @@ public class ScaleTransformation implements ICommandTransformation {
         if(command instanceof SetPositionCommand) {
             int oldX = ((SetPositionCommand) command).getPosX();
             int oldY = ((SetPositionCommand) command).getPosY();
-            command = new SetPositionCommand(oldX * scaleX, oldY * scaleY);
+            ((SetPositionCommand) command).setPosX(oldX * scaleX);
+            ((SetPositionCommand) command).setPosY(oldY * scaleY);
         }
         else if (command instanceof OperateToCommand) {
             int oldX = ((OperateToCommand) command).getPosX();
             int oldY = ((OperateToCommand) command).getPosY();
-            command = new OperateToCommand(oldX * scaleX, oldY * scaleY);
+            ((OperateToCommand) command).setPosX(oldX * scaleX);
+            ((OperateToCommand) command).setPosY(oldY * scaleY);
         }
         else if (command instanceof ICompoundCommand) {
             Iterator<DriverCommand> iterator = ((ICompoundCommand)command).iterator();

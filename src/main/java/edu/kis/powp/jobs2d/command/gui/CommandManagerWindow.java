@@ -19,6 +19,7 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	private HistoryCommandManager historyCommandManager;
 
 	private JTextArea currentCommandField;
 
@@ -121,10 +122,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void updateHistoryCommandFieldPrevious() {
-		historyCommandField.setText(commandManager.getHistoryCommandPreviousString());
+		historyCommandField.setText(historyCommandManager.getHistoryCommandPreviousString());
 	}
 	public void updateHistoryCommandFieldNext() {
-		historyCommandField.setText(commandManager.getHistoryCommandNextString());
+		historyCommandField.setText(historyCommandManager.getHistoryCommandNextString());
 	}
 
 	public void deleteObservers() {

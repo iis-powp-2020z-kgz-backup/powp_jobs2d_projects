@@ -6,9 +6,10 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandHistoryObserver implements Subscriber {
 
     public void update() {
-        String commandString = CommandsFeature.getDriverCommandManager().getCurrentCommandString();
+        // todo zmienic na caly obiekt a nie tylko nazwe
+        String commandString = CommandsFeature.getHistoryCommandManager().getCurrentCommandString();
 
-        CommandsFeature.getDriverCommandManager().saveHistory(commandString);
+        CommandsFeature.getHistoryCommandManager().saveHistory(commandString);
     }
 
     public String toString() {

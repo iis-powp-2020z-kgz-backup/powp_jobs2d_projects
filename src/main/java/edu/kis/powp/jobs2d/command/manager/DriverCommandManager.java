@@ -13,7 +13,6 @@ public class DriverCommandManager {
 	private DriverCommand currentCommand = null;
 
 	private Publisher changePublisher = new Publisher();
-
 	/**
 	 * Set current command.
 	 * 

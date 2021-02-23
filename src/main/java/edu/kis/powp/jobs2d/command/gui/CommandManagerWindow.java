@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,24 +20,28 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	private HistoryCommandManager historyCommandManager;
 
 	private JTextArea currentCommandField;
 
 	private String observerListString;
 	private JTextArea observerListField;
 
+	private JTextArea historyCommandField;
+
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
 
-	public CommandManagerWindow(DriverCommandManager commandManager) {
+	public CommandManagerWindow(DriverCommandManager commandManager, HistoryCommandManager historyCommandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
 		this.commandManager = commandManager;
+		this.historyCommandManager = historyCommandManager;
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -57,6 +62,32 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		c.weighty = 1;
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
+
+		historyCommandField = new JTextArea("");
+		historyCommandField.setEditable(false);
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(historyCommandField, c);
+
+		JButton btnPrevCommand = new JButton("Previous command");
+		btnPrevCommand.addActionListener((ActionEvent e) -> this.updateHistoryCommandFieldPrevious());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnPrevCommand, c);
+
+		JButton btnNextCommand = new JButton("Next command");
+		btnNextCommand.addActionListener((ActionEvent e) -> this.updateHistoryCommandFieldNext());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btnNextCommand, c);
+
+
 
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -92,6 +123,13 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
 
+	public void updateHistoryCommandFieldPrevious() {
+		historyCommandField.setText(historyCommandManager.getHistoryCommandPreviousString());
+	}
+	public void updateHistoryCommandFieldNext() {
+		historyCommandField.setText(historyCommandManager.getHistoryCommandNextString());
+	}
+
 	public void deleteObservers() {
 		commandManager.getChangePublisher().clearObservers();
 		this.updateObserverListField();
@@ -100,7 +138,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private void updateObserverListField() {
 		observerListString = "";
 		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
-		for (Subscriber observer : commandChangeSubscribers) {
+		List<Subscriber> commandHChangeSubscribers = historyCommandManager.getChangePublisher().getSubscribers();
+
+		List<Subscriber> allSubscribers = new ArrayList<>();
+
+		allSubscribers.addAll(commandChangeSubscribers);
+		allSubscribers.addAll(commandHChangeSubscribers);
+
+		for (Subscriber observer : allSubscribers) {
 			observerListString += observer.toString() + System.lineSeparator();
 		}
 		if (commandChangeSubscribers.isEmpty())

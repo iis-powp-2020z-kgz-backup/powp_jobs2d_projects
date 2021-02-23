@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,6 +20,7 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
 	private DriverCommandManager commandManager;
+	private HistoryCommandManager historyCommandManager;
 
 	private JTextArea currentCommandField;
 
@@ -32,13 +34,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	 */
 	private static final long serialVersionUID = 9204679248304669948L;
 
-	public CommandManagerWindow(DriverCommandManager commandManager) {
+	public CommandManagerWindow(DriverCommandManager commandManager, HistoryCommandManager historyCommandManager) {
 		this.setTitle("Command Manager");
 		this.setSize(400, 400);
 		Container content = this.getContentPane();
 		content.setLayout(new GridBagLayout());
 
 		this.commandManager = commandManager;
+		this.historyCommandManager = historyCommandManager;
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -121,10 +124,10 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	}
 
 	public void updateHistoryCommandFieldPrevious() {
-		historyCommandField.setText(commandManager.getHistoryCommandPreviousString());
+		historyCommandField.setText(historyCommandManager.getHistoryCommandPreviousString());
 	}
 	public void updateHistoryCommandFieldNext() {
-		historyCommandField.setText(commandManager.getHistoryCommandNextString());
+		historyCommandField.setText(historyCommandManager.getHistoryCommandNextString());
 	}
 
 	public void deleteObservers() {
@@ -135,7 +138,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private void updateObserverListField() {
 		observerListString = "";
 		List<Subscriber> commandChangeSubscribers = commandManager.getChangePublisher().getSubscribers();
-		for (Subscriber observer : commandChangeSubscribers) {
+		List<Subscriber> commandHChangeSubscribers = historyCommandManager.getChangePublisher().getSubscribers();
+
+		List<Subscriber> allSubscribers = new ArrayList<>();
+
+		allSubscribers.addAll(commandChangeSubscribers);
+		allSubscribers.addAll(commandHChangeSubscribers);
+
+		for (Subscriber observer : allSubscribers) {
 			observerListString += observer.toString() + System.lineSeparator();
 		}
 		if (commandChangeSubscribers.isEmpty())

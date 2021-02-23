@@ -6,9 +6,7 @@ import edu.kis.powp.observer.Subscriber;
 public class CommandHistoryObserver implements Subscriber {
 
     public void update() {
-        String commandString = CommandsFeature.getDriverCommandManager().getCurrentCommandString();
-
-        CommandsFeature.getDriverCommandManager().saveHistory(commandString);
+        CommandsFeature.getHistoryCommandManager().saveHistory();
     }
 
     public String toString() {

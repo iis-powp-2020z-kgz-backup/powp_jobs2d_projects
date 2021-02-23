@@ -16,6 +16,10 @@ import edu.kis.powp.jobs2d.drivers.transformation.Rotate;
 import edu.kis.powp.jobs2d.drivers.transformation.Scale;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformationDriver;
 import edu.kis.powp.jobs2d.events.*;
+import edu.kis.powp.jobs2d.events.SelectRunCurrentCommandOptionListener;
+import edu.kis.powp.jobs2d.events.SelectTestFigure2OptionListener;
+import edu.kis.powp.jobs2d.events.SelectTestFigureOptionListener;
+
 import edu.kis.powp.jobs2d.features.*;
 
 public class TestJobs2dApp {
@@ -44,6 +48,8 @@ public class TestJobs2dApp {
 	private static void setupCommandTests(Application application) {
 		application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
 		application.addTest("Load test command",new SelectLoadTestCommandOptionListener());
+		application.addTest("Load macro", new SelectLoadMacroOptionListener(MacroFeature.getMacroDriver(), CommandsFeature.getDriverCommandManager()));
+		application.addTest("Clear macro", new SelectClearMacroListener(MacroFeature.getMacroDriver()));
 
 		RectangleCanvas A4 = new RectangleCanvas(210,297);
 		RectangleCanvas A7 = new RectangleCanvas(74,105);
@@ -67,6 +73,7 @@ public class TestJobs2dApp {
 		DriverFeature.addDriver("Logger driver", loggerDriver);
 		
 		AdditionalDriverFeature.addDriver("Logger driver", loggerDriver);
+		AdditionalDriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
 
 		DrawPanelController drawerController = DrawerFeature.getDrawerController();
 		Job2dDriver driver = new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic");
@@ -75,6 +82,8 @@ public class TestJobs2dApp {
 
 		driver = new LineDriverAdapter(drawerController, LineFactory.getSpecialLine(), "special");
 		DriverFeature.addDriver("Special line Simulator", driver);
+
+		DriverFeature.addDriver("Macro recording", MacroFeature.getMacroDriver());
 
 		TransformationDriver scaleTransformationDriver = new TransformationDriver(
 				new LineDriverAdapter(drawerController, LineFactory.getBasicLine(), "basic line")
@@ -87,12 +96,17 @@ public class TestJobs2dApp {
 		);
 		rotateTransformationDriver.addNewTransformation(new Rotate(45.0d));
 		DriverFeature.addDriver("Rotate", rotateTransformationDriver);
+
 		DriverFeature.updateDriverInfo();
 
 		DrawerPanelClickMouseListenerFeature drawerPanelClickMouseListenerFeature = new DrawerPanelClickMouseListenerFeature(
 				application.getFreePanel(), DriverFeature.getDriverManager());
 
 		application.getFreePanel().addMouseListener(drawerPanelClickMouseListenerFeature);
+
+		Job2dDriver drawerOdometerFeature = new DrawerOdometerFeature();
+		AdditionalDriverFeature.addDriver("Odometer", drawerOdometerFeature);
+
 	}
 
 	private static void setupWindows(Application application) {
@@ -135,6 +149,8 @@ public class TestJobs2dApp {
 				Application app = new Application("Jobs 2D");
 				DrawerFeature.setupDrawerPlugin(app);
 				CommandsFeature.setupCommandManager();
+				MacroFeature.setupMacro();
+
 				DriverFeature.setupDriverPlugin(app);
 				AdditionalDriverFeature.setupDriverPlugin(app);
 				setupDrivers(app);

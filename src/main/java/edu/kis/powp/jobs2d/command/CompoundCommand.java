@@ -31,13 +31,6 @@ public class CompoundCommand implements ICompoundCommand {
         other.iterator().forEachRemaining(command -> this.commandsList.add(command.clone()));
     }
 
-    public CompoundCommand(List<HistoryCommand> historyCommands, String name) {
-        super();
-        this.commandsList = new ArrayList<>();
-        historyCommands.iterator().forEachRemaining(command -> this.historyCommandList.add(command.clone()));
-        this.name = name;
-    }
-
     /**
      * Execute command on driver.
      *
@@ -87,5 +80,4 @@ public class CompoundCommand implements ICompoundCommand {
 
     private String name;
     private List<DriverCommand> commandsList;
-    private List<HistoryCommand> historyCommandList;
 }

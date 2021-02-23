@@ -4,6 +4,7 @@ import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.OperateToCommand;
 import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.command.manager.HistoryCommandManager;
 import edu.kis.powp.jobs2d.features.CommandsFeature;
 
 import java.awt.event.ActionEvent;
@@ -26,5 +27,8 @@ public class SelectLoadTestCommandOptionListener implements ActionListener {
 
 		DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
 		manager.setCurrentCommand(commands, "TestCommand");
+
+		HistoryCommandManager historyCommandManager = CommandsFeature.getHistoryCommandManager();
+		historyCommandManager.setCurrentCommand(commands, "TestCommand");
 	}
 }
